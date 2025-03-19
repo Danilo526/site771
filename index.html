@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRK LOGÍSTICA</title>
+    <style>
+        /* Estilos básicos */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        h1 {
+            margin: 0;
+            padding: 10px;
+            font-size: 1.8rem;
+        }
+        
+        /* Estilo da navegação */
+        nav {
+            background-color: #004080;
+            padding: 10px 0;
+        }
+        
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 5px 10px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            display: block;
+            font-size: 0.9rem;
+        }
+        
+        nav ul li a:hover {
+            background-color: #0055a4;
+        }
+        
+        /* Menu hambúrguer para mobile */
+        .menu-toggle {
+            display: none;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        /* Estilo da imagem inicial */
+        #inicio {
+            margin-top: 100px; /* Espaço para o cabeçalho fixo */
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            padding: 10px;
+        }
+        
+        #inicio.hidden {
+            opacity: 0;
+            height: 0;
+            min-height: 0;
+            overflow: hidden;
+            margin: 0;
+        }
+        
+        .imagem-capa {
+            width: 85%;
+            max-width: 1000px;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.5s ease;
+        }
+        
+        .imagem-capa:hover {
+            transform: scale(1.03);
+        }
+        
+        /* Estilo das seções */
+        section {
+            background-color: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none; /* Inicialmente oculto */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 100px; /* Adiciona espaço quando a imagem some */
+        }
+        
+        section h2 {
+            color: #003366;
+            margin-bottom: 20px;
+        }
+        
+        /* Estilos para a seção de serviços */
+        .servicos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+
+        .servico-item {
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .servico-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .servico-item h3 {
+            color: #003366;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #004080;
+        }
+
+        .servico-item p {
+            color: #444;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .botao-orcamento {
+            display: inline-block;
+            background-color: #004080;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .botao-orcamento:hover {
+            background-color: #0055a4;
+        }
+
+        .sobre-empresa {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f5ff;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .botao-conheca {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin-top: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .botao-conheca:hover {
+            background-color: #0055a4;
+        }
+        
+        /* Estilos para a página "Como tudo começou" */
+        #historia {
+            padding: 20px;
+            text-align: left;
+        }
+        
+        #historia h2 {
+            color: #003366;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        #historia p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .voltar-btn {
+            display: inline-block;
+            background-color: #003366;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .voltar-btn:hover {
+            background-color: #0055a4;
+        }
+        
+        /* Estilo dos colaboradores */
+        .categoria-equipe {
+            margin-bottom: 30px;
+        }
+        
+        .categoria-equipe h3 {
+            color: #003366;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .equipe-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .colaborador {
+            width: 150px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .colaborador:hover {
+            transform: translateY(-5px);
+        }
+        
+        .colaborador img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #003366;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .colaborador:hover img {
+            border-color: #0055a4;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .colaborador h4 {
+            margin: 10px 0 5px 0;
+            color: #003366;
+            font-size: 0.9rem;
+        }
+        
+        .colaborador p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 0.8rem;
+        }
+        
+        /* Estilo do rodapé */
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+        
+        /* Estilo do formulário */
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #004080;
+        }
+        
+        button {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin-top: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0055a4;
+        }
+        
+        /* Seção de contato responsiva */
+        #contato {
+            text-align: center;
+        }
+        
+        #contato h1, #contato h2 {
+            margin: 10px 0;
+        }
+        
+        #contato h1 {
+            font-size: 1.3rem;
+        }
+        
+        #contato h2 {
+            font-size: 1.2rem;
+        }
+        
+        /* Media Queries para responsividade */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .menu-toggle {
+                display: block;
+                margin: 0 auto;
+            }
+            
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 5px 0;
+                width: 100%;
+            }
+            
+            nav ul li a {
+                padding: 8px 0;
+                width: 100%;
+            }
+            
+            section {
+                padding: 15px;
+                margin: 15px 10px;
+            }
+            
+            section.active {
+                margin-top: 80px;
+            }
+            
+            .servico-item {
+                padding: 15px;
+            }
+            
+            .colaborador {
+                width: 130px;
+            }
+            
+            .colaborador img {
+                width: 100px;
+                height: 100px;
+            }
+            
+            #historia {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.3rem;
+                padding: 5px;
+            }
+            
+            section {
+                padding: 10px;
+                margin: 10px 5px;
+            }
+            
+            .imagem-capa {
+                width: 95%;
+            }
+            
+            .servico-item {
+                padding: 12px;
+            }
+            
+            .colaborador {
+                width: 110px;
+            }
+            
+            .colaborador img {
+                width: 90px;
+                height: 90px;
+            }
+            
+            #contato h1 {
+                font-size: 1.1rem;
+            }
+            
+            #contato h2 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DRK LOGÍSTICA</h1>
+        <button class="menu-toggle" id="menu-toggle">☰ Menu</button>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#inicio" class="nav-link">Início</a></li>
+                <li><a href="#servicos" class="nav-link">Serviços</a></li>
+                <li><a href="#colaboradores" class="nav-link">Colaboradores</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+                <li><a href="#historia" class="nav-link">História</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div id="inicio">
+        <img src="imagem.jpg/drakesp.jpg" alt="Imagem de capa DRK Logística" class="imagem-capa">
+    </div>
+    
+    <section id="servicos">
+        <h2>Nossos Serviços</h2>
+        <p>A DRK LOGÍSTICA oferece soluções completas para sua empresa:</p>
+        
+        <div class="servicos-container">
+            <!-- Transporte de Cargas -->
+            <div class="servico-item">
+                <h3>Transporte de Cargas</h3>
+                <p>O serviço de transporte de cargas da DRK LOGÍSTICA garante entrega segura e pontual para qualquer destino. Nossa frota moderna e equipe experiente asseguram que sua mercadoria chegue no prazo e em perfeitas condições.</p>
+                <a href="https://wa.me/5513991724002" class="botao-orcamento">Faça seu orçamento</a>
+            </div>
+            
+            <!-- Armazém -->
+            <div class="servico-item">
+                <h3>Armazenagem</h3>
+                <p>Oferecemos espaços modernos e seguros para armazenamento de seus produtos. Nossa infraestrutura conta com sistemas de segurança avançados e controle de estoque eficiente, proporcionando tranquilidade e organização para sua empresa.</p>
+                <a href="https://wa.me/5513991724002" class="botao-orcamento">Faça seu orçamento</a>
+            </div>
+            
+            <!-- Fretamento -->
+            <div class="servico-item">
+                <h3>Fretamento</h3>
+                <p>Serviço personalizado de fretamento para atender às necessidades específicas da sua empresa. Seja para transporte de funcionários, eventos corporativos ou necessidades especiais, a DRK LOGÍSTICA tem a solução ideal.</p>
+                <a href="https://wa.me/5513991724002" class="botao-orcamento">Faça seu orçamento</a>
+            </div>
+        </div>
+        
+    </section>
+    
+    <section id="colaboradores">
+        <h2>Nossa Equipe</h2>
+        <p>Conheça os profissionais qualificados e dedicados que fazem parte da DRK LOGÍSTICA.</p>
+         <!-- Professora Gerenciamento -->
+         <h3>Bonifacio owner</h3>
+         <div class="equipe-container">
+             <div class="colaborador">
+                 <img src="imagem.jpg/bonifacio771.jpg" alt="Bonifacio">
+                 <h4>Bonifacio</h4>
+                 <p>Lider</p>
+             </div>
+         </div>
+
+        <!-- Programadores -->
+        <div class="categoria-equipe">
+            <h3>Programadores</h3>
+            <div class="equipe-container">
+                <div class="colaborador">
+                    <img src="imagem.jpg/michael.jpg" alt="Michael">
+                    <h4>Michael</h4>
+                    <p>Programador</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/Lorena.jpg" alt="lorena">
+                    <h4>Lorena</h4>
+                    <p>Programador</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/felipe.jpg" alt="Felipe">
+                    <h4>Felipe</h4>
+                    <p>Programador</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/kel.jpg" alt="Kelmanny">
+                    <h4>Kelmanny</h4>
+                    <p>Programador</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/marcos.jpg" alt="Marcos">
+                    <h4>Marcos</h4>
+                    <p>Programador</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Design -->
+        <div class="categoria-equipe">
+            <h3>Designers</h3>
+            <div class="equipe-container">
+                <div class="colaborador">
+                    <img src="https://via.placeholder.com/150" alt="Nayara">
+                    <h4>Nayara</h4>
+                    <p>Designer</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/emily.jpg" alt="Emily">
+                    <h4>Emily</h4>
+                    <p>Designer</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="https://via.placeholder.com/150" alt="Gabriely">
+                    <h4>Gabriely</h4>
+                    <p>Designer</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teste -->
+        <div class="categoria-equipe">
+            <h3>Teste</h3>
+            <div class="equipe-container">
+                <div class="colaborador">
+                    <img src="https://via.placeholder.com/150" alt="Breno">
+                    <h4>Breno</h4>
+                    <p>Tester</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="https://via.placeholder.com/150" alt="João">
+                    <h4>João</h4>
+                    <p>Tester</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Documentação -->
+        <div class="categoria-equipe">
+            <h3>Documentação</h3>
+            <div class="equipe-container">
+                <div class="colaborador">
+                    <img src="imagem.jpg/dk.jpg" alt="Dandara">
+                    <h4>Dandara</h4>
+                    <p>Documentação</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/michael.jpg" alt="Michael">
+                    <h4>Michael</h4>
+                    <p>Documentação</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/wender.jpg" alt="Wendel">
+                    <h4>Wendel</h4>
+                    <p>Documentação</p>
+                </div>
+                
+                <div class="colaborador">
+                    <img src="imagem.jpg/pietro.jpg" alt="Pietro">
+                    <h4>Pietro</h4>
+                    <p>Documentação</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contato">
+        <h2>Entre em Contato</h2>
+        <h1>Email: emailsuporte@gmail.com</h1>
+        <h2>Telefone: 13 99172-4002</h2>
+    </section>
+    
+    <section id="historia">
+        <h2>Como Tudo Começou</h2>
+        <p>tudo começou em</p>
+        <p>tivemos erros e quase desistimos</p>
+        <p>derrepende surgiu a drk logistica</p>
+        <p>fim</p>
+        <a href="#inicio" class="voltar-btn nav-link">Voltar para inicio</a>
+    </section>
+    
+    <footer>
+        <p>&copy; Developer Bonifacio</p>
+    </footer>
+
+    <script>
+        // Elemento da imagem inicial
+        const inicioElement = document.getElementById('inicio');
+        
+        // Menu toggle para dispositivos móveis
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('show');
+        });
+        
+        // Função para mostrar apenas a seção selecionada
+        function showSection(sectionId) {
+            // Ocultar a imagem inicial para qualquer seção que não seja o início
+            if (sectionId !== '#inicio') {
+                inicioElement.classList.add('hidden');
+            } else {
+                inicioElement.classList.remove('hidden');
+            }
+            
+            // Esconder todas as seções
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Se for o início, não precisamos mostrar nenhuma seção
+            if (sectionId === '#inicio') {
+                return;
+            }
+            
+            // Mostrar apenas a seção selecionada com um pequeno atraso para animação
+            const targetSection = document.querySelector(sectionId);
+            if (targetSection) {
+                setTimeout(() => {
+                    targetSection.classList.add('active');
+                }, 100);
+            }
+            
+            // Fechar o menu em dispositivos móveis após clicar
+            if (window.innerWidth <= 768) {
+                navMenu.classList.remove('show');
+            }
+        }
+        
+        // Configurar os links de navegação
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                
+                // Mostrar a seção correspondente
+                showSection(targetId);
+                
+                // Rolagem suave até a seção
+                if (targetId === '#inicio') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    // Pequeno atraso para que a seção seja exibida antes da rolagem
+                    setTimeout(() => {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            const headerHeight = document.querySelector('header').offsetHeight;
+                            window.scrollTo({
+                                top: targetElement.offsetTop - headerHeight,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 150);
+                }
+            });
+        });
+        
+        // Verificar se há um hash na URL ao carregar a página
+        window.addEventListener('load', function() {
+            if (window.location.hash) {
+                const targetId = window.location.hash;
+                showSection(targetId);
+                
+                // Pequeno atraso para garantir que a seção seja exibida antes da rolagem
+                setTimeout(() => {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        window.scrollTo({
+                            top: targetElement.offsetTop - headerHeight,
+                            behavior: 'auto'
+                        });
+                    }
+                }, 200);
+            }
+        });
+        
+        // Ajuste de layout ao redimensionar a janela
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
